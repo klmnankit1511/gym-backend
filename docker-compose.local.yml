@@ -1,0 +1,14 @@
+version: '3.9'
+
+# Local Development Environment Overrides
+# This file extends docker-compose.yml with local development settings
+# Run with: docker-compose -f docker-compose.yml -f docker-compose.local.yml up
+
+services:
+  api:
+    # Live code reloading via volume mounts
+    volumes:
+      - .:/app
+    environment:
+      - LOG_LEVEL=DEBUG
+      - LOAD_DUMMY_DATA=false
