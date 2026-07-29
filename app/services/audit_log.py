@@ -26,8 +26,6 @@ def write_audit_log(
     Returns:
         ID of the created audit log document
     """
-    container = get_audit_container()
-
     audit_log = {
         "id": str(uuid.uuid4()),
         "tenant_id": tenant_id,
@@ -40,6 +38,9 @@ def write_audit_log(
     }
 
     try:
+        # Audit logging is best effort. An unavailable or unconfigured Cosmos
+        # account must never make the business operation (including login) fail.
+        container = get_audit_container()
         response = container.create_item(body=audit_log)
         return audit_log["id"]
     except Exception as e:
